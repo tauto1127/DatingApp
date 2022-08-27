@@ -3,14 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/{controller}")]
-    public class UsersController : ControllerBase
+
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;//データベース
 
@@ -18,7 +18,8 @@ namespace API.Controllers
         {
             _context = context;
         }
-
+        
+        [Authorize]
         [HttpGet]//データベースへのアクセスは非同期処理を用いなければいけないなぜなら、データベースの処理中には他のリクエストを受け付けることができなくなってしまうから。
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()//ただのListでもいいけど、機能が多すぎるからIEnumerableを使う
         {
@@ -26,6 +27,7 @@ namespace API.Controllers
             return users;
         }
         
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUsers(int id)
         {
