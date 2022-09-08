@@ -19,7 +19,7 @@ namespace API.Controllers
             _context = context;
         }
         
-        [Authorize]
+        //[Authorize]
         [HttpGet]//データベースへのアクセスは非同期処理を用いなければいけないなぜなら、データベースの処理中には他のリクエストを受け付けることができなくなってしまうから。
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()//ただのListでもいいけど、機能が多すぎるからIEnumerableを使う
         {
